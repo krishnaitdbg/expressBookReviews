@@ -27,7 +27,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
   const authorName = req.params.author;
-  let filtered_books = (Object.values(books)).filter((book) => book.author === authorName);
+  let filtered_books = (Object.values(books)).filter((book) => book.author.toLowerCase() === authorName.toLowerCase());
   if (filtered_books.length > 0) {
     res.send(filtered_books)
   } else {
