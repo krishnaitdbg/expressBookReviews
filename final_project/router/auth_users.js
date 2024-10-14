@@ -47,7 +47,7 @@ regd_users.post("/login", (req,res) => {
         // Generate JWT access token
         let accessToken = jwt.sign({
             data: password
-        }, 'access', { expiresIn: 60 * 60});
+        }, 'access', { expiresIn: "10h"});
 
         // Store access token and username in session
         req.session.authorization = {
@@ -62,8 +62,27 @@ regd_users.post("/login", (req,res) => {
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
-  
+  const isbn= req.params.isbn;
+  const review = req.body["review"];
+  const user = req.session.authorization.username;
+  if (review) {
+    books[isbn].reviews[user] = review;
+    return res.status(200).send("Review for the book isbn " + req.params.isbn + ' for user ' + user );
+  } else {
+    return res.status(200).send("Empty Review for the book isbn " + req.params.isbn);
+  }
 });
+
+// Delete a book review
+regd_users.put("/auth/review/:isbn", (req, res) => {
+    //Write your code here
+    const isbn= req.params.isbn;
+    const user = req.session.authorization.username;
+    if (isbn && books[isbn].reviews[user]) {
+        delete  books[isbn].reviews[user];
+        return res.status(200).send("Review for the book isbn " + req.params.isbn + ' and for user ' + user + ' is deleted successfully.');
+    }
+  });
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
