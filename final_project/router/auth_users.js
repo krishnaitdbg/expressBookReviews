@@ -67,14 +67,14 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const user = req.session.authorization.username;
   if (review) {
     books[isbn].reviews[user] = review;
-    return res.status(200).send("Review for the book isbn " + req.params.isbn + ' for user ' + user );
+    return res.status(200).send("Review for the book isbn " + req.params.isbn + ' for user ' + user + ' is added successfully.' );
   } else {
     return res.status(200).send("Empty Review for the book isbn " + req.params.isbn);
   }
 });
 
 // Delete a book review
-regd_users.put("/auth/review/:isbn", (req, res) => {
+regd_users.delete("/auth/review/:isbn", (req, res) => {
     //Write your code here
     const isbn= req.params.isbn;
     const user = req.session.authorization.username;
