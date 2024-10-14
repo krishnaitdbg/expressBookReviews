@@ -91,4 +91,50 @@ public_users.get('/review/:isbn',function (req, res) {
   
 });
 
+//Fetch all Books using Async - Task 10
+const fetchBooks =  async function () {
+    return books;
+  }
+
+public_users.get('/async', async function (req, res) {
+    return res.status(200).json({allBooks: await fetchBooks()});
+});
+
+
+//Fetch Book using Async ISBN - Task 11
+const fetchBookIsbn =  async function (isbn) {
+    return books[isbn];
+  }
+
+public_users.get('/async/isbn/:isbn', async function (req, res) {
+    return res.status(200).json({
+        book: await fetchBookIsbn(req.params.isbn)
+    });
+});
+
+//Fetch Book using Async Author - Task 12
+const fetchBookAuthor =  async function (authorName) {
+    let bookAuthor = Object.values(books).filter(book => 
+        book.author.toLowerCase() === authorName.toLowerCase());
+    return bookAuthor;
+  }
+
+public_users.get('/async/author/:author', async function (req, res) {
+    return res.status(200).json({
+        books: await fetchBookAuthor(req.params.author)
+    });
+});
+
+//Fetch Book using Async Title - Task 13
+const fetchBookTitle =  async function (titleName) {
+    let bookTitle = Object.values(books).filter(book => 
+        book.title.toLowerCase() === titleName.toLowerCase());
+    return bookTitle;
+  }
+
+public_users.get('/async/title/:title', async function (req, res) {
+    return res.status(200).json({
+        books: await fetchBookTitle(req.params.title)});
+});
+
 module.exports.general = public_users;
